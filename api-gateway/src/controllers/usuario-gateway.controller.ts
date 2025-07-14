@@ -1,0 +1,40 @@
+import { Controller, Get, Post, Delete, Patch, Body } from '@nestjs/common';
+import { UsuarioGatewayService } from '../services/usuario-gateway.service';
+import { CreateUsuarioDto } from '../dto/create-usuario.dto';
+import { LoginDto } from '../dto/login.dto';
+import { firstValueFrom } from 'rxjs';
+
+@Controller('usuarios')
+export class UsuarioGatewayController {
+  constructor(private readonly usuarioGateway: UsuarioGatewayService) {}
+
+  @Get()
+  async getAll() {
+    return firstValueFrom(this.usuarioGateway.getAll());
+  }
+
+  @Post('signin')
+  async signIn(@Body() body: LoginDto) {
+    return firstValueFrom(this.usuarioGateway.signIn(body));
+  }
+
+  @Post('signup')
+  async signUp(@Body() dto: CreateUsuarioDto) {
+    return firstValueFrom(this.usuarioGateway.signUp(dto));
+  }
+
+  @Post('buscar')
+  async buscar(@Body('cpf') cpf: string) {
+    return firstValueFrom(this.usuarioGateway.buscar(cpf));
+  }
+
+  @Delete()
+  async delete(@Body('cpf') cpf: string) {
+    return firstValueFrom(this.usuarioGateway.delete(cpf));
+  }
+
+  @Patch()
+  async edit(@Body() dto: CreateUsuarioDto) {
+    return firstValueFrom(this.usuarioGateway.edit(dto));
+  }
+}
