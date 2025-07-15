@@ -8,8 +8,8 @@ async function bootstrap() {
     {
       transport: Transport.REDIS,
       options: {
-        host: 'localhost',
-        port: 6381,
+        host: 'redis',
+        port: 6379,
       },
     },
   );

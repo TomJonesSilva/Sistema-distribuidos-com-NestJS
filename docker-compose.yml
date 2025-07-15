@@ -1,0 +1,106 @@
+services:
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    ports:
+      - "6379:6379" # Expose Redis default port to the host
+    networks:
+      - nestjs-network
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api-gateway-runner
+    container_name: api-gateway
+    ports:
+      - "3000:3000" # Map host port 3000 to container port 3000
+    networks:
+      - nestjs-network
+    volumes:
+      - ./api-gateway:/app/api-gateway
+      - /app/api-gateway/node_modules # Prevent host node_modules from overwriting container's
+
+  cardapio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: cardapio-runner
+    container_name: cardapio
+    ports:
+      - "3001:3001" # Map host port 3001 to container port 3001
+    networks:
+      - nestjs-network
+    depends_on:
+      - redis # This service requires Redis to be running
+    volumes:
+      - ./cardapio:/app/cardapio
+      - /app/cardapio/node_modules # Prevent host node_modules from overwriting container's
+
+  cruds-ticket:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: cruds-ticket-runner
+    container_name: cruds-ticket
+    ports:
+      - "3002:3002" # Map host port 3002 to container port 3002
+    networks:
+      - nestjs-network
+    depends_on:
+      - redis # This service requires Redis to be running
+    volumes:
+      - ./cruds-ticket:/app/cruds-ticket
+      - /app/cruds-ticket/node_modules # Prevent host node_modules from overwriting container's
+
+  cruds-usuario:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: cruds-usuario-runner
+    container_name: cruds-usuario
+    ports:
+      - "3003:3003" # Map host port 3003 to container port 3003
+    networks:
+      - nestjs-network
+    depends_on:
+      - redis # This service requires Redis to be running
+    volumes:
+      - ./cruds-usuario:/app/cruds-usuario
+      - /app/cruds-usuario/node_modules # Prevent host node_modules from overwriting container's
+
+  cruds-opcoes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: cruds-opcoes-runner
+    container_name: cruds-opcoes
+    ports:
+      - "3004:3004" # Map host port 3004 to container port 3004
+    networks:
+      - nestjs-network
+    depends_on:
+      - redis # This service requires Redis to be running
+    volumes:
+      - ./cruds-opcoes:/app/cruds-opcoes
+      - /app/cruds-opcoes/node_modules # Prevent host node_modules from overwriting container's
+
+  relatorio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: relatorio-runner
+    container_name: relatorio
+    ports:
+      - "3005:3005" # Map host port 3005 to container port 3005
+    networks:
+      - nestjs-network
+    depends_on:
+      - redis # This service requires Redis to be running
+    volumes:
+      - ./relatorio:/app/relatorio
+      - /app/relatorio/node_modules # Prevent host node_modules from overwriting container's
+
+networks:
+  nestjs-network:
+    driver: bridge
