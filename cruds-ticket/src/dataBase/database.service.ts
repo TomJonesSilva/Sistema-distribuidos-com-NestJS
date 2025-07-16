@@ -7,7 +7,7 @@ export class DatabaseService {
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'db_ticket',
+    database: 'db_tickets',
   });
 
   async getConnection() {

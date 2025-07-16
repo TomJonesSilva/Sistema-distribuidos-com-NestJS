@@ -11,8 +11,8 @@ export class OpcaoController {
   }
 
   @Post('buscar')
-  buscar(@Body('codigo') codigo: number) {
-    return this.opcaoService.buscarOpcao(codigo);
+  buscar(@Body('codigo_opcao') codigo_opcao: number) {
+    return this.opcaoService.buscarOpcao(codigo_opcao);
   }
 
   @Post('editar')

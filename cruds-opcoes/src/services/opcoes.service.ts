@@ -31,10 +31,17 @@ export class OpcaoService {
   }
 
   async editar(data: any) {
-    const { codigo, opcao1, opcao2, vegana, fast_grill, suco, sobremesa } =
-      data;
+    const {
+      codigo_opcao,
+      opcao1,
+      opcao2,
+      vegana,
+      fast_grill,
+      suco,
+      sobremesa,
+    } = data;
 
-    const opcao = await this.buscar(codigo);
+    const opcao = await this.buscar(codigo_opcao);
     if ('erro' in opcao) {
       return { erro: opcao.erro };
     }
@@ -44,7 +51,7 @@ export class OpcaoService {
       `UPDATE opcao_refeicao
        SET opcao1 = ?, opcao2 = ?, vegana = ?, fast_grill = ?, suco = ?, sobremesa = ?
        WHERE codigo_opcao = ?`,
-      [opcao1, opcao2, vegana, fast_grill, suco, sobremesa, codigo],
+      [opcao1, opcao2, vegana, fast_grill, suco, sobremesa, codigo_opcao],
     );
 
     return { mensagem: 'Opção de refeição editada com sucesso.' };

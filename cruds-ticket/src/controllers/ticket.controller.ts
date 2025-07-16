@@ -7,8 +7,8 @@ export class TicketController {
   constructor(private readonly ticketService: TicketService) {}
 
   @MessagePattern('ticket_comprar')
-  comprarTicket(data: any) {
-    return this.ticketService.comprarTicket(data);
+  comprarTicket(dto: any) {
+    return this.ticketService.comprarTicket(dto);
   }
 
   @MessagePattern('ticket_listar')

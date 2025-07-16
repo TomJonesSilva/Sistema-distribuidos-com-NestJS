@@ -8,7 +8,7 @@ export class TicketService {
   async comprarTicket(data: { tipo: string; usuario: string }) {
     const conn = await this.db.getConnection();
     await conn.query(
-      'INSERT INTO ticket_refeicao (tipo, data_venda, usuario) VALUES (?, NOW(), ?)',
+      'INSERT INTO ticket_refeicao (tipo, data_venda, usuario_cpf) VALUES (?, NOW(), ?)',
       [data.tipo, data.usuario],
     );
     return { mensagem: 'Ticket comprado com sucesso' };
@@ -23,7 +23,7 @@ export class TicketService {
   async listarNaoConsumidos(data: { tipo: string; usuario: string }) {
     const conn = await this.db.getConnection();
     const [rows] = await conn.query(
-      'SELECT * FROM ticket_refeicao WHERE usuario = ? AND tipo = ? AND data_consumo IS NULL',
+      'SELECT * FROM ticket_refeicao WHERE usuario_cpf = ? AND tipo = ? AND data_consumo IS NULL',
       [data.usuario, data.tipo],
     );
     return { total: (rows as any[]).length };
@@ -32,7 +32,7 @@ export class TicketService {
   async consumirTicket(data: { tipo: string; usuario: string }) {
     const conn = await this.db.getConnection();
     const [rows] = await conn.query(
-      'SELECT * FROM ticket_refeicao WHERE usuario = ? AND tipo = ? AND data_consumo IS NULL LIMIT 1',
+      'SELECT * FROM ticket_refeicao WHERE usuario_cpf = ? AND tipo = ? AND data_consumo IS NULL LIMIT 1',
       [data.usuario, data.tipo],
     );
 

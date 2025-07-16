@@ -8,13 +8,13 @@ async function bootstrap() {
     {
       transport: Transport.REDIS,
       options: {
-        host: 'redis',
+        host: 'localhost',
         port: 6379,
       },
     },
   );
 
   await app.listen();
-  console.log('Microserviço Cardápio em execução...');
+  console.log('Microserviço usuario em execução...');
 }
 bootstrap();

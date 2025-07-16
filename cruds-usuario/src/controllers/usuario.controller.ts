@@ -13,12 +13,12 @@ export class UsuarioMessageHandler {
     return this.usuarioService.getAll();
   }
 
-  @MessagePattern('usuario_signIn')
+  @MessagePattern('usuario_signin')
   signIn(body: LoginDto) {
     return this.usuarioService.signIn(body);
   }
 
-  @MessagePattern('usuario_signUp')
+  @MessagePattern('usuario_signup')
   signUp(dto: CreateUsuarioDto) {
     return this.usuarioService.signUp(dto);
   }

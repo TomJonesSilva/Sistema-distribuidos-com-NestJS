@@ -1,22 +1,23 @@
-import { Controller, Post, Body, Get, Patch } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CardapioService } from '../services/cardapio.service';
 
-@Controller('cardapio')
+@Controller()
 export class CardapioController {
   constructor(private readonly cardapioService: CardapioService) {}
 
-  @Post('cadastrar')
-  cadastrar(@Body() body: any) {
+  @MessagePattern('cardapio_cadastrar')
+  cadastrar(@Payload() body: any) {
     return this.cardapioService.cadastrarCardapio(body);
   }
 
-  @Post('buscar')
-  buscar(@Body() body: any) {
+  @MessagePattern('cardapio_buscar')
+  buscar(@Payload() body: any) {
     return this.cardapioService.buscarCardapio(body);
   }
 
-  @Patch('editar')
-  editar(@Body() body: any) {
+  @MessagePattern('cardapio_editar')
+  editar(@Payload() body: any) {
     return this.cardapioService.editarCardapio(body);
   }
 }
