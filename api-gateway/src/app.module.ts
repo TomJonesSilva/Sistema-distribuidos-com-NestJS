@@ -7,6 +7,8 @@ import { CardapioController } from './controllers/cardapio-gateway.controller';
 import { OpcaoService } from './services/opcao-gateway.service';
 import { TicketService } from './services/ticket-gateway.service';
 import { CardapioService } from './services/cardapio-gateway.service';
+import { RelatorioController } from './controllers/relatorio-gateway.controller';
+import { RelatorioService } from './services/relatorio-gateway.service';
 
 @Module({
   imports: [],
@@ -15,12 +17,14 @@ import { CardapioService } from './services/cardapio-gateway.service';
     OpcaoController,
     TicketController,
     CardapioController,
+    RelatorioController,
   ],
   providers: [
     UsuarioGatewayService,
     OpcaoService,
     TicketService,
     CardapioService,
+    RelatorioService,
   ],
 })
 export class AppModule {}
