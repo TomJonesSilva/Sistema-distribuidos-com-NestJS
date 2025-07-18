@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.TelaGerenciamentoCardapioController">
+   <children>
+      <Label fx:id="labelBemvindo" alignment="TOP_LEFT" layoutX="36.0" layoutY="70.0" prefHeight="63.0" prefWidth="265.0" text="Funcionari@:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="410.0" layoutY="147.0" mnemonicParsing="false" onAction="#botaoVerCardapioApertar" prefHeight="25.0" prefWidth="151.0" text="Visualizar Cardápio Atual" />
+      <Button layoutX="275.0" layoutY="329.0" mnemonicParsing="false" onAction="#botaoVoltar" text="Voltar" />
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="151.0" layoutY="24.0" prefHeight="27.0" prefWidth="283.0" text="Gerenciamento de Cardápios">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="133.0" layoutY="146.0" mnemonicParsing="false" onAction="#botaoCdCardapio" prefHeight="25.0" prefWidth="151.0" text="Cadastrar Cardápio " />
+      <ImageView fitHeight="62.0" fitWidth="55.0" layoutX="62.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Create%20(inserir).png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@RUlogo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="62.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Recovery%20(ver).png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="346.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Recovery%20(ver).png" />
+         </image>
+      </ImageView>
+      <Button layoutX="133.0" layoutY="237.0" mnemonicParsing="false" onAction="#botaoBuscarCardapioApertar" prefHeight="25.0" prefWidth="151.0" text="Buscar Cardápio " />
+   </children>
+</AnchorPane>

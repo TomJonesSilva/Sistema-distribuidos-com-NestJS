@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.TelaFuncionarioController">
+   <children>
+      <ImageView fitHeight="332.0" fitWidth="600.0" layoutY="58.0" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <image>
+            <Image url="@fundo.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="labelBemvindo" alignment="TOP_LEFT" layoutX="36.0" layoutY="70.0" prefHeight="63.0" prefWidth="265.0" text="Bem vind@, " textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="146.0" text="Seus tickets:" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="68.0" layoutY="251.0" mnemonicParsing="false" onAction="#botaoComprarApertar" prefHeight="25.0" prefWidth="117.0" text="Comprar Tickets" />
+      <Button layoutX="532.0" layoutY="12.0" mnemonicParsing="false" onAction="#botaoSair" text="Logout" />
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="221.0" layoutY="14.0" prefHeight="27.0" prefWidth="159.0" text="Funcionário">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="413.0" layoutY="209.0" mnemonicParsing="false" onAction="#userCadastro" prefHeight="25.0" prefWidth="176.0" text="Gerenciar Usuários" />
+      <Label fx:id="labelQtdAlmoco" layoutX="35.0" layoutY="190.0" text="Almoço: " textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelQtdJantar" layoutX="46.0" layoutY="215.0" text="Jantar: " textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="212.0" layoutY="209.0" mnemonicParsing="false" onAction="#botaoRelatoriosApertar" prefHeight="25.0" prefWidth="176.0" text="Relatórios" />
+      <Button layoutX="68.0" layoutY="293.0" mnemonicParsing="false" onAction="#botaoConsumirApertar" prefHeight="25.0" prefWidth="117.0" text="Consumir Tickets" />
+      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="452.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@menu%20edit.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="451.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@user%20registration.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="251.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@relatoriosButton.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="47.0" fitWidth="36.0" layoutX="28.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@carrinhoBranco.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="36.0" fitWidth="44.0" layoutX="28.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@catracaBranca.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="12.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="4.0">
+         <image>
+            <Image url="@RUlogo.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="12.0" layoutY="14.0" mnemonicParsing="false" opacity="0.0" prefHeight="47.0" prefWidth="48.0" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="4.0" />
+      <Button layoutX="68.0" layoutY="341.0" mnemonicParsing="false" onAction="#botaoHistoricoApertar" prefHeight="25.0" prefWidth="117.0" text="Histórico" />
+      <ImageView fitHeight="36.0" fitWidth="44.0" layoutX="28.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@calendarioBranco.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="251.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@menu%20icon.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="213.0" layoutY="343.0" mnemonicParsing="false" onAction="#botaoVerCardapioApertar" prefHeight="25.0" prefWidth="176.0" text="Cardápio Vigente" />
+      <MenuButton fx:id="menuBtn" layoutX="414.0" layoutY="343.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Gerenciar Cardápios">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#cadastrarCardapioApertar" text="Cadastrar Cardápio" />
+          <MenuItem mnemonicParsing="false" onAction="#buscarCardapioApertar" text="Buscar Cardápio" />
+        </items>
+      </MenuButton>
+   </children>
+</AnchorPane>

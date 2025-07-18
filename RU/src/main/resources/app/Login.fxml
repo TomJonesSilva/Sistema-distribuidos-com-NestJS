@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.TelaLoginController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="40.0" text="Restaurante Universitário - UFRPE" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label layoutX="172.0" layoutY="225.0" text="CPF: " />
+      <TextField fx:id="CPFTextField" layoutX="204.0" layoutY="221.0" prefHeight="25.0" prefWidth="192.0" promptText="Digite seu CPF (apenas números)" />
+      <Label layoutX="167.0" layoutY="279.0" text="Senha:" />
+      <PasswordField fx:id="senhaPasswordField" layoutX="204.0" layoutY="275.0" prefHeight="25.0" prefWidth="192.0" promptText="Digite sua senha" />
+      <Button layoutX="277.0" layoutY="324.0" mnemonicParsing="false" onAction="#botaoLoginApertar" text="Login" />
+      <Label fx:id="LabelAvisoErroLogin" alignment="CENTER" layoutX="151.0" layoutY="362.0" prefHeight="17.0" prefWidth="299.0" />
+      <ImageView fitHeight="130.0" fitWidth="132.0" layoutX="234.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@RUlogo.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

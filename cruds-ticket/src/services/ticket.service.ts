@@ -22,6 +22,7 @@ export class TicketService {
 
   async listarNaoConsumidos(data: { tipo: string; usuario: string }) {
     const conn = await this.db.getConnection();
+
     const [rows] = await conn.query(
       'SELECT * FROM ticket_refeicao WHERE usuario_cpf = ? AND tipo = ? AND data_consumo IS NULL',
       [data.usuario, data.tipo],

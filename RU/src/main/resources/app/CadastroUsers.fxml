@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.CadastroUserController">
+   <children>
+      <Pane layoutY="54.0" prefHeight="338.0" prefWidth="600.0">
+         <children>
+            <ImageView fitHeight="338.0" fitWidth="600.0" pickOnBounds="true">
+               <image>
+                  <Image url="@fundo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <TabPane layoutX="33.0" layoutY="56.0" prefHeight="317.0" prefWidth="539.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Cadastro de Estudante">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="384.0">
+                     <children>
+                        <TextField fx:id="nomeAluno" layoutX="149.0" layoutY="17.0" prefHeight="25.0" prefWidth="315.0" promptText="Nome completo do aluno" AnchorPane.bottomAnchor="246.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="17.0" />
+                        <Label layoutX="99.0" layoutY="12.0" prefHeight="20.0" prefWidth="46.0" text="Nome:" textFill="WHITE" AnchorPane.bottomAnchor="242.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="394.0" AnchorPane.topAnchor="12.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="86.0" layoutY="163.0" text="Código:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="6.0" layoutY="86.0" prefHeight="34.0" prefWidth="129.0" text="Data de nascimento:" textFill="WHITE" AnchorPane.bottomAnchor="168.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="404.0" AnchorPane.topAnchor="86.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="109.0" layoutY="49.0" text="CPF:" textFill="WHITE" AnchorPane.bottomAnchor="205.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="403.0" AnchorPane.topAnchor="49.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="89.0" layoutY="200.0" text="E-mail:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="75.0" layoutY="127.0" text="Matrícula:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="88.0" layoutY="235.0" text="Senha:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="cpfAluno" layoutX="149.0" layoutY="54.0" prefHeight="25.0" prefWidth="315.0" promptText="CPF sem caracteres especiais" AnchorPane.bottomAnchor="209.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="54.0" />
+                        <DatePicker fx:id="nascAluno" layoutX="149.0" layoutY="91.0" prefHeight="25.0" prefWidth="174.0" AnchorPane.bottomAnchor="172.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="91.0" />
+                        <TextField fx:id="matriculaAluno" layoutX="148.0" layoutY="125.0" prefHeight="25.0" prefWidth="174.0" promptText="Nº sem carac. especiais" />
+                        <TextField fx:id="codAluno" layoutX="148.0" layoutY="161.0" prefHeight="25.0" prefWidth="174.0" promptText="Atribua um cód. ao aluno" />
+                        <TextField fx:id="emailAluno" layoutX="145.0" layoutY="198.0" prefHeight="25.0" prefWidth="315.0" />
+                        <TextField fx:id="senhaAluno" layoutX="146.0" layoutY="233.0" prefHeight="25.0" prefWidth="315.0" />
+                        <Button layoutX="209.0" layoutY="263.0" mnemonicParsing="false" onAction="#cadastrarEstudante" text="Cadastrar Estudante" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Cadastro de funcionário">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="283.0" prefWidth="539.0">
+                     <children>
+                        <TextField fx:id="nomeFun" layoutX="148.0" layoutY="24.0" prefHeight="25.0" prefWidth="315.0" promptText="Nome completo do aluno" AnchorPane.bottomAnchor="246.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="17.0" />
+                        <Label layoutX="93.0" layoutY="23.0" prefHeight="20.0" prefWidth="46.0" text="Nome:" textFill="WHITE" AnchorPane.bottomAnchor="242.0" AnchorPane.leftAnchor="99.0" AnchorPane.rightAnchor="394.0" AnchorPane.topAnchor="12.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="108.0" layoutY="54.0" text="CPF:" textFill="WHITE" AnchorPane.bottomAnchor="205.0" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="403.0" AnchorPane.topAnchor="49.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="cpfFun" layoutX="147.0" layoutY="59.0" prefHeight="25.0" prefWidth="315.0" promptText="CPF sem caracteres especiais" AnchorPane.bottomAnchor="209.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="54.0" />
+                        <DatePicker fx:id="nascFun" layoutX="148.0" layoutY="97.0" prefHeight="25.0" prefWidth="176.0" AnchorPane.bottomAnchor="172.0" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="91.0" />
+                        <Label layoutX="5.0" layoutY="89.0" prefHeight="40.0" prefWidth="130.0" text="Data de nascimento:" textFill="WHITE" AnchorPane.bottomAnchor="168.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="404.0" AnchorPane.topAnchor="86.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="93.0" layoutY="197.0" text="E-mail:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="90.0" layoutY="165.0" text="Salário:" textFill="WHITE" AnchorPane.leftAnchor="90.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="92.0" layoutY="231.0" text="Senha:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="dataContrato" layoutX="148.0" layoutY="129.0" prefHeight="25.0" prefWidth="176.0" />
+                        <Label layoutX="8.0" layoutY="131.0" text="Data de contratação:" textFill="WHITE" AnchorPane.leftAnchor="6.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="salario" layoutX="148.0" layoutY="162.0" prefHeight="25.0" prefWidth="118.0" promptText="R$" />
+                        <TextField fx:id="emailFun" layoutX="148.0" layoutY="195.0" prefHeight="25.0" prefWidth="315.0" />
+                        <TextField fx:id="senhaFun" layoutX="148.0" layoutY="229.0" prefHeight="25.0" prefWidth="315.0" />
+                        <Button layoutX="204.0" layoutY="263.0" mnemonicParsing="false" onAction="#cadastrarFuncionario" text="Cadastrar Funcionário" />
+                        <Label layoutX="286.0" layoutY="165.0" text="Cód.:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="codFun" layoutX="324.0" layoutY="163.0" prefHeight="25.0" prefWidth="139.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Visualizar estudante">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="cpfSearchE" alignment="CENTER" layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="208.0" promptText="Insira o CPF do usuário" />
+                        <Label layoutX="83.0" layoutY="28.0" prefHeight="31.0" prefWidth="70.0" text="BUSCA" textFill="WHITE">
+                           <font>
+                              <Font name="Century Gothic" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="251.0" layoutY="65.0" text="Nome:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayNome" layoutX="299.0" layoutY="65.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="320.0" layoutY="28.0" prefHeight="31.0" prefWidth="133.0" text="VISUALIZAÇÃO" textFill="WHITE">
+                           <font>
+                              <Font name="Century Gothic" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="265.0" layoutY="94.0" text="CPF:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayCpf" layoutX="299.0" layoutY="94.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="258.0" layoutY="119.0" text="Cód.:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayCod" layoutX="299.0" layoutY="119.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="66.0" layoutY="98.0" mnemonicParsing="false" onAction="#searchButton" prefHeight="25.0" prefWidth="127.0" text="Buscar" />
+                        <Button layoutX="65.0" layoutY="133.0" mnemonicParsing="false" onAction="#removeButton" prefHeight="25.0" prefWidth="128.0" text="Remover" />
+                        <ImageView fitHeight="20.0" fitWidth="24.0" layoutX="43.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@iconBusca.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="43.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@deleteBranco.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="239.0" layoutY="143.0" text="Dt. Nas.:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayNasc" layoutX="298.0" layoutY="143.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="252.0" layoutY="165.0" text="Email:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayEmail" layoutX="298.0" layoutY="165.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Visualizar funcionário">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="cpfSearchF" alignment="CENTER" layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="208.0" promptText="Insira o CPF do usuário" />
+                        <Label layoutX="83.0" layoutY="28.0" prefHeight="31.0" prefWidth="70.0" text="BUSCA" textFill="WHITE">
+                           <font>
+                              <Font name="Century Gothic" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="251.0" layoutY="65.0" text="Nome:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayNomeFun" layoutX="299.0" layoutY="65.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="320.0" layoutY="28.0" prefHeight="31.0" prefWidth="133.0" text="VISUALIZAÇÃO" textFill="WHITE">
+                           <font>
+                              <Font name="Century Gothic" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="265.0" layoutY="90.0" text="CPF:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayCpfFun" layoutX="299.0" layoutY="90.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="258.0" layoutY="115.0" text="Cód.:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayCodFun" layoutX="299.0" layoutY="115.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="66.0" layoutY="98.0" mnemonicParsing="false" onAction="#searchButtonF" prefHeight="25.0" prefWidth="127.0" text="Buscar" />
+                        <Button layoutX="65.0" layoutY="133.0" mnemonicParsing="false" onAction="#removeButtonF" prefHeight="25.0" prefWidth="128.0" text="Remover" />
+                        <ImageView fitHeight="20.0" fitWidth="24.0" layoutX="43.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@iconBusca.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="43.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@deleteBranco.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="239.0" layoutY="140.0" text="Dt. Nas.:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayNascFun" layoutX="298.0" layoutY="140.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="252.0" layoutY="165.0" text="Email:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displayEmailFun" layoutX="298.0" layoutY="165.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="65.0" layoutY="168.0" mnemonicParsing="false" onAction="#editButton" prefHeight="25.0" prefWidth="128.0" text="Editar" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="43.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@editBranco.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="245.0" layoutY="190.0" text="Salário:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="displaySalario" layoutX="298.0" layoutY="190.0" prefHeight="20.0" prefWidth="233.0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nomeTextField" layoutX="293.0" layoutY="63.0" opacity="0.0" scaleY="0.8" />
+                        <TextField fx:id="cpfTextField" layoutX="293.0" layoutY="88.0" opacity="0.0" scaleY="0.8" />
+                        <TextField fx:id="codigoTextField" layoutX="293.0" layoutY="112.0" opacity="0.0" scaleY="0.8" />
+                        <TextField fx:id="emailTextField" layoutX="293.0" layoutY="162.0" opacity="0.0" scaleY="0.8" />
+                        <TextField fx:id="salarioTextField" layoutX="293.0" layoutY="187.0" opacity="0.0" scaleY="0.8" />
+                        <DatePicker fx:id="dataNascimentoDatePicker" layoutX="293.0" layoutY="137.0" opacity="0.0" prefHeight="25.0" prefWidth="149.0" scaleY="0.8" />
+                        <Button fx:id="finalizarbutton" layoutX="338.0" layoutY="262.0" mnemonicParsing="false" onAction="#botaoFinalizar" opacity="0.0" text="Finalizar" />
+                        <DatePicker fx:id="dataAdmmissaoDatePicker" layoutX="293.0" layoutY="212.0" opacity="0.0" prefHeight="25.0" prefWidth="149.0" scaleY="0.8" />
+                        <TextField fx:id="senhaTextField" layoutX="293.0" layoutY="237.0" opacity="0.0" scaleY="0.8" />
+                        <Label fx:id="dataAdmissaoLabel" layoutX="203.0" layoutY="215.0" opacity="0.0" prefHeight="20.0" prefWidth="89.0" text="Dat.Admissao:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="senhaLabel" layoutX="242.0" layoutY="240.0" opacity="0.0" text="Senha" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Label layoutX="187.0" layoutY="14.0" text="Gerenciamento de Usuários">
+         <font>
+            <Font name="Century Gothic" size="20.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="45.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="348.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="548.0" AnchorPane.topAnchor="4.0">
+         <image>
+            <Image url="@RUlogo.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="524.0" layoutY="361.0" mnemonicParsing="false" onAction="#homeButton" text="Voltar" />
+      <Button layoutX="3.0" layoutY="4.0" mnemonicParsing="false" onAction="#homeButton" opacity="0.0" prefHeight="47.0" prefWidth="48.0" />
+   </children>
+</AnchorPane>
