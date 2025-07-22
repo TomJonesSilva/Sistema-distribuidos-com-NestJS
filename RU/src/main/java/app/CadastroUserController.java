@@ -17,9 +17,17 @@ import models.Funcionario;
 import negocio.Controlador;
 import negocio.UserAtual;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.json.JSONObject;
 
 public class CadastroUserController {
     private Stage stage;
@@ -133,35 +141,62 @@ public class CadastroUserController {
     @FXML
     private Label senhaLabel;
 
-
     @FXML
-    protected void cadastrarEstudante (){
-        if(!(senhaAluno.getText().equals("")) && !(nomeAluno.getText().equals("")) &&  // se não há algum
-                !(emailAluno.getText().equals("")) && !(cpfAluno.getText().equals("")) &&  // campo em branco
-                !(matriculaAluno.getText().equals("")) && !(codAluno.getText().equals("")) &&
-                (nascAluno.getValue().isBefore(LocalDate.now().minusYears(16)))){
+    protected void cadastrarEstudante() {
+        if (!(senhaAluno.getText().isEmpty()) && !(nomeAluno.getText().isEmpty()) &&
+                !(emailAluno.getText().isEmpty()) && !(cpfAluno.getText().isEmpty()) &&
+                !(matriculaAluno.getText().isEmpty()) && !(codAluno.getText().isEmpty()) &&
+                (nascAluno.getValue().isBefore(LocalDate.now().minusYears(16)))) {
             try {
-                Controlador.getInstance().inserirEstudante(new Estudante(codAluno.getText(),
-                        nomeAluno.getText(), cpfAluno.getText(), nascAluno.getValue(),
-                        emailAluno.getText(), senhaAluno.getText(), matriculaAluno.getText()));
-                Alert success = new Alert(Alert.AlertType.INFORMATION);
-                success.setTitle("CADASTRO REALIZADO!");
-                success.setContentText("Estudante cadastro com sucesso!");
-                success.show();
+                URI uri = URI.create("http://localhost:3000/usuarios/signup");
+                URL url = uri.toURL();
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
 
-                nomeAluno.setText("");
-                cpfAluno.setText("");
-                nascAluno.setValue(null);
-                matriculaAluno.setText("");
-                codAluno.setText("");
-                emailAluno.setText("");
-                senhaAluno.setText("");
+                String json = String.format(
+                        "{" +
+                                "\"nome\":\"%s\"," +
+                                "\"cpf\":\"%s\"," +
+                                "\"senha\":\"%s\"," +
+                                "\"tipo\":\"estudante\"" +
+                                "}",
+                        nomeAluno.getText(),
+                        cpfAluno.getText(),
+                        senhaAluno.getText());
 
-            } catch (ElementoJaExisteException e) {
-                Alert repeated = new Alert(Alert.AlertType.WARNING);
-                repeated.setTitle("CADASTRO INVÁLIDO!");
-                repeated.setContentText(e.getMessage());
-                repeated.show();
+                try (OutputStream os = conn.getOutputStream()) {
+                    byte[] input = json.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                int responseCode = conn.getResponseCode();
+                if (responseCode == 201 || responseCode == 200) {
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("CADASTRO REALIZADO!");
+                    success.setContentText("Estudante cadastrado com sucesso!");
+                    success.show();
+
+                    nomeAluno.setText("");
+                    cpfAluno.setText("");
+                    nascAluno.setValue(null);
+                    matriculaAluno.setText("");
+                    codAluno.setText("");
+                    emailAluno.setText("");
+                    senhaAluno.setText("");
+                } else {
+                    Alert fail = new Alert(Alert.AlertType.WARNING);
+                    fail.setTitle("ERRO AO CADASTRAR");
+                    fail.setContentText("Erro no cadastro: " + conn.getResponseMessage());
+                    fail.show();
+                }
+
+            } catch (Exception e) {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("FALHA");
+                error.setContentText("Erro ao enviar dados: " + e.getMessage());
+                error.show();
             }
         } else {
             Alert fail = new Alert(Alert.AlertType.WARNING);
@@ -172,37 +207,62 @@ public class CadastroUserController {
     }
 
     @FXML
-    protected void cadastrarFuncionario (){
-
-        if(!(codFun.getText().equals("")) && !(nomeFun.getText().equals("")) &&  // se não há algum
-                !(emailFun.getText().equals("")) && !(cpfFun.getText().equals("")) &&  // campo em branco
-                !(salario.getText().equals("")) &&
-                (nascFun.getValue().isBefore(LocalDate.now().minusYears(16)))){
+    protected void cadastrarFuncionario() {
+        if (!(codFun.getText().isEmpty()) && !(nomeFun.getText().isEmpty()) &&
+                !(emailFun.getText().isEmpty()) && !(cpfFun.getText().isEmpty()) &&
+                !(salario.getText().isEmpty()) &&
+                (nascFun.getValue().isBefore(LocalDate.now().minusYears(16)))) {
             try {
-                Controlador.getInstance().inserirFuncionario(new Funcionario(codFun.getText(),
-                        nomeFun.getText(), cpfFun.getText(), nascFun.getValue(),
-                        emailFun.getText(), senhaFun.getText(), Double.parseDouble(salario.getText()),
-                        dataContrato.getValue()));
+                URI uri = URI.create("http://localhost:3000/usuarios/signup");
+                URL url = uri.toURL();
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
 
-                Alert success = new Alert(Alert.AlertType.INFORMATION);
-                success.setTitle("CADASTRO REALIZADO!");
-                success.setContentText("Funcionário cadastro com sucesso!");
-                success.show();
+                String json = String.format(
+                        "{" +
+                                "\"nome\":\"%s\"," +
+                                "\"cpf\":\"%s\"," +
+                                "\"senha\":\"%s\"," +
+                                "\"tipo\":\"funcionario\"" +
+                                "}",
+                        nomeFun.getText(),
+                        cpfFun.getText(),
+                        senhaFun.getText());
 
-                nomeFun.setText("");
-                cpfFun.setText("");
-                salario.setText("");
-                codFun.setText("");
-                emailFun.setText("");
-                senhaFun.setText("");
-                nascFun.setValue(null);
-                dataContrato.setValue(null);
+                try (OutputStream os = conn.getOutputStream()) {
+                    byte[] input = json.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
 
-            } catch (ElementoJaExisteException e) {
-                Alert repeated = new Alert(Alert.AlertType.WARNING);
-                repeated.setTitle("CADASTRO INVÁLIDO!");
-                repeated.setContentText(e.getMessage());
-                repeated.show();
+                int responseCode = conn.getResponseCode();
+                if (responseCode == 201 || responseCode == 200) {
+                    Alert success = new Alert(Alert.AlertType.INFORMATION);
+                    success.setTitle("CADASTRO REALIZADO!");
+                    success.setContentText("Funcionário cadastrado com sucesso!");
+                    success.show();
+
+                    nomeFun.setText("");
+                    cpfFun.setText("");
+                    salario.setText("");
+                    codFun.setText("");
+                    emailFun.setText("");
+                    senhaFun.setText("");
+                    nascFun.setValue(null);
+                    dataContrato.setValue(null);
+                } else {
+                    Alert fail = new Alert(Alert.AlertType.WARNING);
+                    fail.setTitle("ERRO AO CADASTRAR");
+                    fail.setContentText("Erro no cadastro: " + conn.getResponseMessage());
+                    fail.show();
+                }
+
+            } catch (Exception e) {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("FALHA");
+                error.setContentText("Erro ao enviar dados: " + e.getMessage());
+                error.show();
             }
         } else {
             Alert fail = new Alert(Alert.AlertType.WARNING);
@@ -210,19 +270,18 @@ public class CadastroUserController {
             fail.setContentText("Verifique as informações preenchidas!");
             fail.show();
         }
-
     }
 
     @FXML
     protected void homeButton(ActionEvent event) throws IOException {
-        if (UserAtual.getInstance().gettipoUser()==1) {
+        if (UserAtual.getInstance().gettipoUser() == 1) {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("TelaAluno.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
             stage.setTitle("Tela Inicial");
-        } else if (UserAtual.getInstance().gettipoUser()==2) {
+        } else if (UserAtual.getInstance().gettipoUser() == 2) {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("TelaFuncionario.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -233,22 +292,58 @@ public class CadastroUserController {
     }
 
     @FXML
-    protected void searchButton () throws ElementoNaoExisteException {
-        int encontrado = 0;
+    protected void searchButton() {
+        try {
+            String cpf = cpfSearchE.getText();
 
-    	for (Estudante f: Controlador.getInstance().listarEstudantes()) {
+            // Monta o JSON manualmente ou usando Gson
+            String jsonInput = "{\"cpf\": \"" + cpf + "\"}";
 
-            if (f.getCpf().equals(cpfSearchE.getText())) {
-                displayNome.setText(f.getNome());
-                displayCpf.setText(f.getCpf());
-                displayCod.setText(f.getCodigo());
-                displayNasc.setText(f.getDataDeNascimento().toString());
-                displayEmail.setText(f.getEmail());
-                encontrado = 1;
+            // URL do endpoint do backend
+            URI uri = URI.create("http://localhost:3000/usuarios/buscar");
+            URL url = uri.toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            // Configura a requisição
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+
+            // Envia o corpo da requisição
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonInput.getBytes("utf-8");
+                os.write(input, 0, input.length);
             }
-        }
 
-        if(encontrado != 1){
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == 200 || responseCode == 201) {
+                // Lê a resposta
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine;
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+
+                    String json = response.toString(); // resposta recebida do backend
+                    JSONObject obj = new JSONObject(json);
+
+                    // Preenche os campos da interface
+                    displayNome.setText(obj.getString("nome"));
+                    displayCpf.setText(obj.getString("cpf"));
+                    displayCod.setText(obj.getString("codigo"));
+                    displayNasc.setText(obj.getString("dataDeNascimento"));
+                    displayEmail.setText(obj.getString("email"));
+                }
+            } else {
+                throw new ElementoNaoExisteException(cpfSearchE.getText());
+            }
+
+        } catch (Exception e) {
+            // Limpa os campos e exibe alerta
             displayNome.setText("");
             displayCpf.setText("");
             displayCod.setText("");
@@ -257,13 +352,13 @@ public class CadastroUserController {
 
             Alert fail = new Alert(Alert.AlertType.WARNING);
             fail.setTitle("ERRO");
-            fail.setContentText("Estudante não encontrado!");
+            fail.setContentText("Estudante não encontrado ou erro de conexão!");
             fail.show();
         }
     }
 
     @FXML
-    protected void searchButtonF (){
+    protected void searchButtonF() {
         int encontrado = 0;
 
         nomeTextField.setOpacity(0);
@@ -278,7 +373,7 @@ public class CadastroUserController {
         salarioTextField.setOpacity(0);
         finalizarbutton.setOpacity(0);
 
-        for (Funcionario f: Controlador.getInstance().listarFuncionarios()) {
+        for (Funcionario f : Controlador.getInstance().listarFuncionarios()) {
             if (f.getCpf().equals(cpfSearchF.getText())) {
                 displayNomeFun.setText(f.getNome());
                 displayCpfFun.setText(f.getCpf());
@@ -290,7 +385,7 @@ public class CadastroUserController {
             }
         }
 
-        if(encontrado != 1){
+        if (encontrado != 1) {
             displayNome.setText("");
             displayCpf.setText("");
             displayCod.setText("");
@@ -305,22 +400,22 @@ public class CadastroUserController {
     }
 
     @FXML
-    protected void removeButton() throws ElementoNaoExisteException{
+    protected void removeButton() throws ElementoNaoExisteException {
 
-        for (Estudante e: Controlador.getInstance().listarEstudantes()) {
+        for (Estudante e : Controlador.getInstance().listarEstudantes()) {
             if (e.getCpf().equals(cpfSearchE.getText())) {
 
-                    Controlador.getInstance().removerEstudante(e);
-                    Alert success = new Alert(Alert.AlertType.INFORMATION);
-                    success.setTitle("Estudante removido!");
-                    success.setContentText("Estudante removido com sucesso!");
-                    success.show();
-                    displayNome.setText("");
-                    displayCpf.setText("");
-                    displayCod.setText("");
-                    displayNasc.setText("");
-                    displayEmail.setText("");
-            }else{
+                Controlador.getInstance().removerEstudante(e);
+                Alert success = new Alert(Alert.AlertType.INFORMATION);
+                success.setTitle("Estudante removido!");
+                success.setContentText("Estudante removido com sucesso!");
+                success.show();
+                displayNome.setText("");
+                displayCpf.setText("");
+                displayCod.setText("");
+                displayNasc.setText("");
+                displayEmail.setText("");
+            } else {
                 Alert fail = new Alert(Alert.AlertType.WARNING);
                 fail.setTitle("ERRO");
                 fail.setContentText("Estudante não pôde ser removido!");
@@ -332,9 +427,10 @@ public class CadastroUserController {
 
     @FXML
     protected void removeButtonF() {
-        for (Funcionario f: Controlador.getInstance().listarFuncionarios()) {
-            if (f.getCpf().equals(cpfSearchF.getText()) && !cpfSearchF.getText().equals(Controlador.getInstance().getUsuario().getCpf())) {
-                try{
+        for (Funcionario f : Controlador.getInstance().listarFuncionarios()) {
+            if (f.getCpf().equals(cpfSearchF.getText())
+                    && !cpfSearchF.getText().equals(Controlador.getInstance().getUsuario().getCpf())) {
+                try {
                     Controlador.getInstance().removerFuncionario(f);
                     Alert success = new Alert(Alert.AlertType.INFORMATION);
                     success.setTitle("Funcionário removido!");
@@ -356,14 +452,13 @@ public class CadastroUserController {
                     dataNascimentoDatePicker.setOpacity(0);
                     salarioTextField.setOpacity(0);
                     finalizarbutton.setOpacity(0);
-                }catch (ElementoNaoExisteException ignored){
+                } catch (ElementoNaoExisteException ignored) {
                     Alert fail = new Alert(Alert.AlertType.WARNING);
                     fail.setTitle("ERRO");
                     fail.setContentText("Funcionário não pôde ser removido!");
                     fail.show();
                 }
-            }
-            else if(cpfSearchF.getText().equals(Controlador.getInstance().getUsuario().getCpf())){
+            } else if (cpfSearchF.getText().equals(Controlador.getInstance().getUsuario().getCpf())) {
                 Alert fail = new Alert(Alert.AlertType.WARNING);
                 fail.setTitle("ERRO");
                 fail.setContentText("Um funcionário não pode ser removido por ele mesmo!");
@@ -372,22 +467,21 @@ public class CadastroUserController {
         }
     }
 
-
     @FXML
     protected void editButton() {
-    	nomeTextField.setOpacity(1);
-    	cpfTextField.setOpacity(1);
-    	codigoTextField.setOpacity(1);
-    	emailTextField.setOpacity(1);
-    	senhaTextField.setOpacity(1);
-    	senhaLabel.setOpacity(1);
-    	dataAdmissaoLabel.setOpacity(1);
-    	dataAdmmissaoDatePicker.setOpacity(1);
-    	dataNascimentoDatePicker.setOpacity(1);
-    	salarioTextField.setOpacity(1);
-    	finalizarbutton.setOpacity(1);
+        nomeTextField.setOpacity(1);
+        cpfTextField.setOpacity(1);
+        codigoTextField.setOpacity(1);
+        emailTextField.setOpacity(1);
+        senhaTextField.setOpacity(1);
+        senhaLabel.setOpacity(1);
+        dataAdmissaoLabel.setOpacity(1);
+        dataAdmmissaoDatePicker.setOpacity(1);
+        dataNascimentoDatePicker.setOpacity(1);
+        salarioTextField.setOpacity(1);
+        finalizarbutton.setOpacity(1);
 
-        for (Funcionario f: Controlador.getInstance().listarFuncionarios()) {
+        for (Funcionario f : Controlador.getInstance().listarFuncionarios()) {
             if (f.getCpf().equals(cpfSearchF.getText())) {
                 nomeTextField.setText(f.getNome());
                 cpfTextField.setText(f.getCpf());
@@ -400,17 +494,19 @@ public class CadastroUserController {
         }
 
     }
+
     @FXML
     protected void botaoFinalizar() {
         Double salario = (Double.parseDouble(salarioTextField.getText()));
-        if(salario>0){
+        if (salario > 0) {
 
-            for (Funcionario f: Controlador.getInstance().listarFuncionarios()) {
+            for (Funcionario f : Controlador.getInstance().listarFuncionarios()) {
                 if (f.getCpf().equals(cpfTextField.getText())) {
-    		        try {
-    			        Controlador.getInstance().atualizarFuncionario(codigoTextField.getText(),nomeTextField.getText()
-                                ,cpfTextField.getText(),dataNascimentoDatePicker.getValue(), emailTextField.getText()
-                                ,senhaTextField.getText(),Double.parseDouble(salarioTextField.getText()),dataAdmmissaoDatePicker.getValue());
+                    try {
+                        Controlador.getInstance().atualizarFuncionario(codigoTextField.getText(),
+                                nomeTextField.getText(), cpfTextField.getText(), dataNascimentoDatePicker.getValue(),
+                                emailTextField.getText(), senhaTextField.getText(),
+                                Double.parseDouble(salarioTextField.getText()), dataAdmmissaoDatePicker.getValue());
                         Alert fail = new Alert(Alert.AlertType.INFORMATION);
                         fail.setTitle("Atualização Realizada");
                         fail.setContentText("As informações do funcionário foram atualizadas.");
@@ -422,7 +518,7 @@ public class CadastroUserController {
                         fail.setTitle("ERRO");
                         fail.setContentText("Funcionário não encontrado!");
                         fail.show();
-			        } catch (DataInvalidaException | ParametroVazioException e) {
+                    } catch (DataInvalidaException | ParametroVazioException e) {
                         Alert fail = new Alert(Alert.AlertType.WARNING);
                         fail.setTitle("ERRO");
                         fail.setContentText(e.getMessage());
