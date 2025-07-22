@@ -3,6 +3,7 @@ import { UsuarioGatewayService } from '../services/usuario-gateway.service';
 import { CreateUsuarioDto } from '../dto/create-usuario.dto';
 import { LoginDto } from '../dto/login.dto';
 import { firstValueFrom } from 'rxjs';
+import { CpfDto } from 'src/dto/cpf.dto';
 
 @Controller('usuarios')
 export class UsuarioGatewayController {
@@ -24,13 +25,13 @@ export class UsuarioGatewayController {
   }
 
   @Post('buscar')
-  async buscar(@Body('cpf') cpf: string) {
-    return firstValueFrom(this.usuarioGateway.buscar(cpf));
+  async buscar(@Body() body: CpfDto) {
+    return firstValueFrom(this.usuarioGateway.buscar(body.cpf));
   }
 
   @Delete()
-  async delete(@Body('cpf') cpf: string) {
-    return firstValueFrom(this.usuarioGateway.delete(cpf));
+  async delete(@Body() body: CpfDto) {
+    return firstValueFrom(this.usuarioGateway.delete(body.cpf));
   }
 
   @Patch()
