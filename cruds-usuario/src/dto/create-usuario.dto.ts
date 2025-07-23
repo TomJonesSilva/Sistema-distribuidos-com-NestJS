@@ -1,4 +1,5 @@
 // src/usuario/dtos/create-usuario.dto.ts
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsEmail,
@@ -27,7 +28,7 @@ export class CreateUsuarioDto {
   email?: string;
 
   @IsString()
-  @Length(6, 100)
+  @Length(4, 100)
   senha: string;
 
   @IsIn(['estudante', 'funcionario'])
@@ -38,7 +39,8 @@ export class CreateUsuarioDto {
   matricula?: string;
 
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
+  @IsNumber({}, { message: 'salario deve ser um número válido' })
   salario?: number;
 
   @IsOptional()

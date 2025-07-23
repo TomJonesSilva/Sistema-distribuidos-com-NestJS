@@ -19,15 +19,25 @@ import negocio.UserAtual;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class CadastroUserController {
     private Stage stage;
@@ -145,7 +155,7 @@ public class CadastroUserController {
     protected void cadastrarEstudante() {
         if (!(senhaAluno.getText().isEmpty()) && !(nomeAluno.getText().isEmpty()) &&
                 !(emailAluno.getText().isEmpty()) && !(cpfAluno.getText().isEmpty()) &&
-                !(matriculaAluno.getText().isEmpty()) && !(codAluno.getText().isEmpty()) &&
+                !(matriculaAluno.getText().isEmpty()) &&
                 (nascAluno.getValue().isBefore(LocalDate.now().minusYears(16)))) {
             try {
                 URI uri = URI.create("http://localhost:3000/usuarios/signup");
@@ -155,22 +165,30 @@ public class CadastroUserController {
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setDoOutput(true);
 
+                String dataFormatada = nascAluno.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE);
+
                 String json = String.format(
                         "{" +
                                 "\"nome\":\"%s\"," +
                                 "\"cpf\":\"%s\"," +
+                                "\"data_nascimento\":\"%s\"," +
+                                "\"email\":\"%s\"," +
                                 "\"senha\":\"%s\"," +
-                                "\"tipo\":\"estudante\"" +
+                                "\"tipo\":\"estudante\"," +
+                                "\"matricula\":\"%s\"" +
                                 "}",
                         nomeAluno.getText(),
                         cpfAluno.getText(),
-                        senhaAluno.getText());
-
+                        dataFormatada,
+                        emailAluno.getText(),
+                        senhaAluno.getText(),
+                        matriculaAluno.getText());
                 try (OutputStream os = conn.getOutputStream()) {
                     byte[] input = json.getBytes("utf-8");
                     os.write(input, 0, input.length);
                 }
-
+                System.out.println(json);
+                System.out.println(conn.getResponseMessage());
                 int responseCode = conn.getResponseCode();
                 if (responseCode == 201 || responseCode == 200) {
                     Alert success = new Alert(Alert.AlertType.INFORMATION);
@@ -208,7 +226,7 @@ public class CadastroUserController {
 
     @FXML
     protected void cadastrarFuncionario() {
-        if (!(codFun.getText().isEmpty()) && !(nomeFun.getText().isEmpty()) &&
+        if (!(nomeFun.getText().isEmpty()) &&
                 !(emailFun.getText().isEmpty()) && !(cpfFun.getText().isEmpty()) &&
                 !(salario.getText().isEmpty()) &&
                 (nascFun.getValue().isBefore(LocalDate.now().minusYears(16)))) {
@@ -220,17 +238,27 @@ public class CadastroUserController {
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setDoOutput(true);
 
+                String dataFormatadaNas = nascFun.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE);
+                String dataFormatadaAdm = dataContrato.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE);
+
                 String json = String.format(
                         "{" +
                                 "\"nome\":\"%s\"," +
                                 "\"cpf\":\"%s\"," +
+                                "\"data_nascimento\":\"%s\"," +
+                                "\"email\":\"%s\"," +
                                 "\"senha\":\"%s\"," +
-                                "\"tipo\":\"funcionario\"" +
+                                "\"tipo\":\"funcionario\"," +
+                                "\"salario\":\"%s\"," +
+                                "\"data_admin\":\"%s\"" +
                                 "}",
                         nomeFun.getText(),
                         cpfFun.getText(),
-                        senhaFun.getText());
-
+                        dataFormatadaNas,
+                        emailFun.getText(),
+                        senhaFun.getText(),
+                        Double.parseDouble(salario.getText()),
+                        dataFormatadaAdm);
                 try (OutputStream os = conn.getOutputStream()) {
                     byte[] input = json.getBytes("utf-8");
                     os.write(input, 0, input.length);
@@ -294,29 +322,32 @@ public class CadastroUserController {
     @FXML
     protected void searchButton() {
         try {
-            String cpf = cpfSearchE.getText();
-
-            // Monta o JSON manualmente ou usando Gson
-            String jsonInput = "{\"cpf\": \"" + cpf + "\"}";
-
-            // URL do endpoint do backend
             URI uri = URI.create("http://localhost:3000/usuarios/buscar");
             URL url = uri.toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            // Configura a requisição
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; utf-8");
-            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
 
-            // Envia o corpo da requisição
+            String json = String.format(
+                    "{" +
+
+                            "\"cpf\":\"%s\"" + "}",
+                    cpfAluno.getText());
             try (OutputStream os = conn.getOutputStream()) {
-                byte[] input = jsonInput.getBytes("utf-8");
+                byte[] input = json.getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
             int responseCode = conn.getResponseCode();
+
+            System.out.println(conn.getResponseMessage());
+            System.out.println(conn.getResponseCode());
+            System.out.println(conn.getInputStream());
+            Map<String, List<String>> headers = conn.getHeaderFields();
+            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
 
             if (responseCode == 200 || responseCode == 201) {
                 // Lê a resposta
@@ -328,14 +359,30 @@ public class CadastroUserController {
                         response.append(responseLine.trim());
                     }
 
-                    String json = response.toString(); // resposta recebida do backend
-                    JSONObject obj = new JSONObject(json);
+                    String jsonR = response.toString();
+
+                    if (jsonR == null || jsonR.isEmpty()) {
+                        throw new ElementoNaoExisteException(cpfSearchE.getText());
+                    }
+
+                    JSONObject obj = new JSONObject(jsonR);
+
+                    // Verifica se campos importantes existem antes de preencher
+                    if (!obj.has("nome") || !obj.has("cpf") || !obj.has("data_nascimento") || !obj.has("email")) {
+                        throw new ElementoNaoExisteException(cpfSearchE.getText());
+                    }
 
                     // Preenche os campos da interface
                     displayNome.setText(obj.getString("nome"));
                     displayCpf.setText(obj.getString("cpf"));
-                    displayCod.setText(obj.getString("codigo"));
-                    displayNasc.setText(obj.getString("dataDeNascimento"));
+
+                    // Converte data_nascimento para formato legível, se necessário
+                    String dataNasc = obj.getString("data_nascimento");
+                    if (dataNasc.contains("T")) {
+                        dataNasc = dataNasc.split("T")[0]; // Fica só "2005-07-19"
+                    }
+                    displayNasc.setText(dataNasc);
+
                     displayEmail.setText(obj.getString("email"));
                 }
             } else {
@@ -359,44 +406,65 @@ public class CadastroUserController {
 
     @FXML
     protected void searchButtonF() {
-        int encontrado = 0;
+        String cpf = cpfSearchF.getText();
+        String url = "http://localhost:3000/usuarios/buscar";
 
-        nomeTextField.setOpacity(0);
-        cpfTextField.setOpacity(0);
-        codigoTextField.setOpacity(0);
-        emailTextField.setOpacity(0);
-        senhaTextField.setOpacity(0);
-        senhaLabel.setOpacity(0);
-        dataAdmissaoLabel.setOpacity(0);
-        dataAdmmissaoDatePicker.setOpacity(0);
-        dataNascimentoDatePicker.setOpacity(0);
-        salarioTextField.setOpacity(0);
-        finalizarbutton.setOpacity(0);
+        try {
+            // Cria o cliente HTTP
+            HttpClient client = HttpClient.newHttpClient();
 
-        for (Funcionario f : Controlador.getInstance().listarFuncionarios()) {
-            if (f.getCpf().equals(cpfSearchF.getText())) {
-                displayNomeFun.setText(f.getNome());
-                displayCpfFun.setText(f.getCpf());
-                displayCodFun.setText(f.getCodigo());
-                displayNascFun.setText(f.getDataDeNascimento().toString());
-                displayEmailFun.setText(f.getEmail());
-                displaySalario.setText(String.valueOf(f.getSalario()));
-                encontrado = 1;
+            // Monta o JSON com o CPF
+            String jsonInputString = "{\"cpf\": \"" + cpf + "\"}";
+
+            // Cria a requisição POST
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonInputString))
+                    .build();
+
+            // Envia a requisição e recebe a resposta (bloqueante)
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                // Resposta JSON como string
+                String responseBody = response.body();
+
+                // Converte a resposta JSON para objeto usando Gson
+                Gson gson = new Gson();
+                JsonObject funcionario = gson.fromJson(responseBody, JsonObject.class);
+
+                // Atualiza os campos da interface
+                displayNomeFun.setText(funcionario.get("nome").getAsString());
+                displayCpfFun.setText(funcionario.get("cpf").getAsString());
+                displayCodFun.setText("N/A"); // Não tem código no retorno atual
+                displayNascFun.setText(funcionario.get("data_nascimento").getAsString().substring(0, 10));
+                displayEmailFun.setText(funcionario.get("email").getAsString());
+                displaySalario.setText(funcionario.get("salario").getAsString());
+
+            } else {
+                mostrarAlertaNaoEncontrado();
             }
-        }
 
-        if (encontrado != 1) {
-            displayNome.setText("");
-            displayCpf.setText("");
-            displayCod.setText("");
-            displayNasc.setText("");
-            displayEmail.setText("");
-
-            Alert fail = new Alert(Alert.AlertType.WARNING);
-            fail.setTitle("ERRO");
-            fail.setContentText("Funcionário não encontrado!");
-            fail.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlertaNaoEncontrado();
         }
+    }
+
+    // Alerta separado para reuso
+    private void mostrarAlertaNaoEncontrado() {
+        displayNome.setText("");
+        displayCpf.setText("");
+        displayCod.setText("");
+        displayNasc.setText("");
+        displayEmail.setText("");
+
+        Alert fail = new Alert(Alert.AlertType.WARNING);
+        fail.setTitle("ERRO");
+        fail.setContentText("Funcionário não encontrado!");
+        fail.show();
     }
 
     @FXML

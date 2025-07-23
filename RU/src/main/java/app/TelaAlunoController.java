@@ -42,7 +42,7 @@ public class TelaAlunoController {
 
     @FXML
     protected void initialize() {
-        labelBemvindo.setText(labelBemvindo.getText() + Controlador.getInstance().getUsuario().getNome());
+        labelBemvindo.setText("Bem-vindo, " + UserAtual.getInstance().getNome());
         // Faz uma requisição para obter a quantidade de almoços não consumidos
         try {
             HttpClient client = HttpClient.newHttpClient();

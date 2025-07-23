@@ -12,9 +12,10 @@ module app {
     requires com.almasb.fxgl.all;
     requires java.net.http;
     requires org.json;
-    
+    requires com.google.gson;
 
     opens app to javafx.fxml;
+
     exports app;
     exports exceptions;
     exports models;

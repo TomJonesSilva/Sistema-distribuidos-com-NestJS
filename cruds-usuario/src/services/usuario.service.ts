@@ -30,6 +30,11 @@ export class UsuarioService {
     );
 
     if ((estudantes as any[]).length > 0) {
+      console.log({
+        ...usuario,
+        tipo: 'estudante',
+        matricula: estudantes[0].matricula,
+      });
       return {
         ...usuario,
         tipo: 'estudante',

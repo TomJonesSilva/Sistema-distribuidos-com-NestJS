@@ -75,6 +75,7 @@ public class TelaLoginController {
             // Imprime o tempo de resposta no console
             System.out.println("Tempo de resposta da solicitação: " + responseTime + " milissegundos");
             // Verifica se a resposta da API indica um login válido
+            System.out.println("resposta da api" + response.statusCode());
             if (response.statusCode() == 201) {
 
                 // System.out.println(response.body());
@@ -113,6 +114,7 @@ public class TelaLoginController {
                 alerta.setTitle("Login inválido!");
                 alerta.setContentText(response.body());
                 alerta.show();
+
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

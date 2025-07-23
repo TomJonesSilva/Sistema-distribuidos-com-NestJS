@@ -6,6 +6,5 @@ export class LoginDto {
   cpf: string;
 
   @IsString()
-  @Length(6, 100)
   senha: string;
 }

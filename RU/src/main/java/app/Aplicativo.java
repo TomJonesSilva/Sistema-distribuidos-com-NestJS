@@ -22,28 +22,31 @@ public class Aplicativo extends Application {
         stage.setResizable(false);
         stage.show();
     }
-    
 
     public static void main(String[] args) {
         try {
-            Controlador.getInstance().inserirEstudante(new Estudante("1233123","José Silva","12345678900",
-                    LocalDate.of(2002,3,21),"email@hotmail.com","senha","1273299786"));
+            Controlador.getInstance().inserirEstudante(new Estudante("1233123", "José Silva", "12345678900",
+                    LocalDate.of(2002, 3, 21), "email@hotmail.com", "senha", "1273299786"));
 
         } catch (ElementoJaExisteException e) {
             System.out.println("Teste");
         }
-        Funcionario f = new Funcionario("1233123","Ana Maria","12345678911",
-                LocalDate.of(1990,12,12),"email@hotmail.com","senha",1500.99,LocalDate.of(2012,1,2));
+        Funcionario f = new Funcionario("1233123", "Ana Maria", "12345678911",
+                LocalDate.of(1990, 12, 12), "email@hotmail.com", "senha", 1500.99, LocalDate.of(2012, 1, 2));
         try {
             Controlador.getInstance().inserirFuncionario(f);
         } catch (ElementoJaExisteException e) {
             System.out.println("Teste");
         }
-        /*try {
-            Controlador.getInstance().getRepositorioTicketRefeicao().inserir(new TicketRefeicao(LocalDate.now(),LocalDate.now(), "12837163",3.50,f, TipoRefeicao.ALMOCO));
-        } catch (ElementoJaExisteException e) {
-            System.out.println("Teste");
-        }*/
+        /*
+         * try {
+         * Controlador.getInstance().getRepositorioTicketRefeicao().inserir(new
+         * TicketRefeicao(LocalDate.now(),LocalDate.now(), "12837163",3.50,f,
+         * TipoRefeicao.ALMOCO));
+         * } catch (ElementoJaExisteException e) {
+         * System.out.println("Teste");
+         * }
+         */
         launch();
     }
 }

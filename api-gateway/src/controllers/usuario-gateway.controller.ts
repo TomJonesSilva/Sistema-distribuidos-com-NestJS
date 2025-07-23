@@ -25,7 +25,8 @@ export class UsuarioGatewayController {
   }
 
   @Post('buscar')
-  async buscar(@Body() body: CpfDto) {
+  async buscar(@Body() body: any) {
+    console.log(body.cpf);
     return firstValueFrom(this.usuarioGateway.buscar(body.cpf));
   }
 
