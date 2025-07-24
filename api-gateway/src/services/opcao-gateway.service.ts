@@ -1,14 +1,40 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  OnModuleInit,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import {
   ClientProxy,
   ClientProxyFactory,
   Transport,
 } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
+import {
+  Observable,
+  firstValueFrom,
+  timeout,
+  catchError,
+  throwError,
+} from 'rxjs';
 
 @Injectable()
 export class OpcaoService implements OnModuleInit {
   private client: ClientProxy;
+
+  async callWithTimeout<T>(obs$: Observable<T>, time = 3000): Promise<T> {
+    return await firstValueFrom(
+      obs$.pipe(
+        timeout(time),
+        catchError((err) =>
+          throwError(
+            () =>
+              new ServiceUnavailableException(
+                'Microserviço de opções está fora do ar',
+              ),
+          ),
+        ),
+      ),
+    );
+  }
 
   onModuleInit() {
     this.client = ClientProxyFactory.create({
@@ -18,14 +44,14 @@ export class OpcaoService implements OnModuleInit {
   }
 
   cadastrarOpcao(data: any) {
-    return firstValueFrom(this.client.send('opcao_cadastrar', data));
+    return this.callWithTimeout(this.client.send('opcao_cadastrar', data));
   }
 
   buscarOpcao(codigo: number) {
-    return firstValueFrom(this.client.send('opcao_buscar', { codigo }));
+    return this.callWithTimeout(this.client.send('opcao_buscar', { codigo }));
   }
 
   editarOpcao(data: any) {
-    return firstValueFrom(this.client.send('opcao_editar', data));
+    return this.callWithTimeout(this.client.send('opcao_editar', data));
   }
 }

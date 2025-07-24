@@ -144,10 +144,10 @@ public class TelaCDCardapioController {
         dataInicioCardapio.setValue(LocalDate.now());
         datafinalCardapio.setValue(LocalDate.now());
         ObservableList<TipoRefeicao> tipos = FXCollections.observableArrayList();
-        tipos.add(TipoRefeicao.ALMOCO);
-        tipos.add(TipoRefeicao.JANTAR);
+        tipos.add(TipoRefeicao.almoço);
+        tipos.add(TipoRefeicao.janta);
         cbTipo.setItems(tipos);
-        cbTipo.setValue(TipoRefeicao.ALMOCO);
+        cbTipo.setValue(TipoRefeicao.almoço);
     }
 
     private int enviarPost(String urlStr, String jsonBody) throws IOException {

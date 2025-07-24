@@ -25,6 +25,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import org.json.JSONArray;
@@ -132,8 +133,8 @@ public class TelaCardapioController {
     protected void initialize() {
 
         ObservableList<TipoRefeicao> tipos = FXCollections.observableArrayList();
-        tipos.add(TipoRefeicao.ALMOCO);
-        tipos.add(TipoRefeicao.JANTAR);
+        tipos.add(TipoRefeicao.almoço);
+        tipos.add(TipoRefeicao.janta);
         cbTipo.setItems(tipos);
 
         cbTipo.setOnAction(this::iniciarCardapio);
@@ -146,6 +147,8 @@ public class TelaCardapioController {
         try {
 
             LocalDate dataAtual = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String dataFormatada = dataAtual.format(formatter);
 
             HttpClient client = HttpClient.newHttpClient();
 
@@ -159,7 +162,7 @@ public class TelaCardapioController {
                     .uri(URI.create("http://localhost:3000/cardapio/buscar"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(
-                            "{\"data_inicio\": \"" + dataAtual + "\", \"tipo\": \"" + cbTipo.getValue() + "\"}"))
+                            "{\"data_inicio\": \"" + dataFormatada + "\", \"tipo\": \"" + cbTipo.getValue() + "\"}"))
                     .build();
 
             // Envia a requisição para a API e obtém a resposta para o almoço
@@ -182,70 +185,59 @@ public class TelaCardapioController {
                 if (jsonObject.has("opcoes")) {
                     JSONObject opcoes = jsonObject.getJSONObject("opcoes");
 
-                    // Verifica se no corpo de resposta tem o campo "segunda"
-                    if (opcoes.has("segunda")) {
-                        // Obtém o array de opções para segunda-feira
-                        JSONArray segundaArray = opcoes.getJSONArray("segunda");
-                        JSONArray tercaArray = opcoes.getJSONArray("terca");
-                        JSONArray quartaArray = opcoes.getJSONArray("quarta");
-                        JSONArray quintaArray = opcoes.getJSONArray("quinta");
-                        JSONArray sextaArray = opcoes.getJSONArray("sexta");
+                    if (jsonObject.has("segunda")) {
 
-                        // Verifica se o array possui elementos
-                        if (segundaArray.length() > 0) {
-                            // Obtém o primeiro elemento do array
-                            JSONObject segundaObjeto = segundaArray.getJSONObject(0);
-                            principal1SegundaLabel.setText(segundaObjeto.getString("opcao1"));
-                            principal2SegundaLabel.setText(segundaObjeto.getString("opcao2"));
-                            vegetarianoSegundaLabel.setText(segundaObjeto.getString("vegana"));
-                            fastSegundaLabel.setText(segundaObjeto.getString("fast_grill"));
-                            sucoSegundaLabel.setText(segundaObjeto.getString("suco"));
-                            sobremesaSegundaLabel.setText(segundaObjeto.getString("sobremesa"));
-                        }
-                        if (tercaArray.length() > 0) {
-                            // Obtém o primeiro elemento do array
-                            JSONObject tercaObjeto = tercaArray.getJSONObject(0);
-                            principal1TercaLabel.setText(tercaObjeto.getString("opcao1"));
-                            principal2TercaLabel.setText(tercaObjeto.getString("opcao2"));
-                            vegetarianoTercaLabel.setText(tercaObjeto.getString("vegana"));
-                            fastTercaLabel.setText(tercaObjeto.getString("fast_grill"));
-                            sucoTercaLabel.setText(tercaObjeto.getString("suco"));
-                            sobremesaTercaLabel.setText(tercaObjeto.getString("sobremesa"));
-                        }
-                        if (quartaArray.length() > 0) {
-                            // Obtém o primeiro elemento do array
-                            JSONObject quartaObjeto = quartaArray.getJSONObject(0);
-                            principal1QuartaLabel.setText(quartaObjeto.getString("opcao1"));
-                            principal2QuartaLabel.setText(quartaObjeto.getString("opcao2"));
-                            vegetarianoQuartaLabel.setText(quartaObjeto.getString("vegana"));
-                            fastQuartaLabel.setText(quartaObjeto.getString("fast_grill"));
-                            sucoQuartaLabel.setText(quartaObjeto.getString("suco"));
-                            sobremesaQuartaLabel.setText(quartaObjeto.getString("sobremesa"));
-                        }
-                        if (quintaArray.length() > 0) {
-                            // Obtém o primeiro elemento do array
-                            JSONObject quintaObjeto = quintaArray.getJSONObject(0);
-                            principal1QuintaLabel.setText(quintaObjeto.getString("opcao1"));
-                            principal2QuintaLabel.setText(quintaObjeto.getString("opcao2"));
-                            vegetarianoQuintaLabel.setText(quintaObjeto.getString("vegana"));
-                            fastQuintaLabel.setText(quintaObjeto.getString("fast_grill"));
-                            sucoQuintaLabel.setText(quintaObjeto.getString("suco"));
-                            sobremesaQuintaLabel.setText(quintaObjeto.getString("sobremesa"));
-                        }
-                        if (sextaArray.length() > 0) {
-                            // Obtém o primeiro elemento do array
-                            JSONObject sextaObjeto = sextaArray.getJSONObject(0);
-                            principal1SextaLabel.setText(sextaObjeto.getString("opcao1"));
-                            principal2SextaLabel.setText(sextaObjeto.getString("opcao2"));
-                            vegetarianoSextaLabel.setText(sextaObjeto.getString("vegana"));
-                            fastSextaLabel.setText(sextaObjeto.getString("fast_grill"));
-                            sucoSextaLabel.setText(sextaObjeto.getString("suco"));
-                            sobremesaSextaLabel.setText(sextaObjeto.getString("sobremesa"));
-                        }
+                        JSONObject segundaObjeto = opcoes.getJSONObject("segunda");
+                        principal1SegundaLabel.setText(segundaObjeto.getString("opcao1"));
+                        principal2SegundaLabel.setText(segundaObjeto.getString("opcao2"));
+                        vegetarianoSegundaLabel.setText(segundaObjeto.getString("vegana"));
+                        fastSegundaLabel.setText(segundaObjeto.getString("fast_grill"));
+                        sucoSegundaLabel.setText(segundaObjeto.getString("suco"));
+                        sobremesaSegundaLabel.setText(segundaObjeto.getString("sobremesa"));
 
                     }
-                }
+                    if (jsonObject.has("terca")) {
+                        // Obtém o primeiro elemento do array
+                        JSONObject tercaObjeto = opcoes.getJSONObject("terca");
+                        principal1TercaLabel.setText(tercaObjeto.getString("opcao1"));
+                        principal2TercaLabel.setText(tercaObjeto.getString("opcao2"));
+                        vegetarianoTercaLabel.setText(tercaObjeto.getString("vegana"));
+                        fastTercaLabel.setText(tercaObjeto.getString("fast_grill"));
+                        sucoTercaLabel.setText(tercaObjeto.getString("suco"));
+                        sobremesaTercaLabel.setText(tercaObjeto.getString("sobremesa"));
+                    }
+                    if (jsonObject.has("quarta")) {
+                        // Obtém o primeiro elemento do array
+                        JSONObject quartaObjeto = opcoes.getJSONObject("quarta");
+                        principal1QuartaLabel.setText(quartaObjeto.getString("opcao1"));
+                        principal2QuartaLabel.setText(quartaObjeto.getString("opcao2"));
+                        vegetarianoQuartaLabel.setText(quartaObjeto.getString("vegana"));
+                        fastQuartaLabel.setText(quartaObjeto.getString("fast_grill"));
+                        sucoQuartaLabel.setText(quartaObjeto.getString("suco"));
+                        sobremesaQuartaLabel.setText(quartaObjeto.getString("sobremesa"));
+                    }
+                    if (jsonObject.has("quinta")) {
+                        // Obtém o primeiro elemento do array
+                        JSONObject quintaObjeto = opcoes.getJSONObject("quinta");
+                        principal1QuintaLabel.setText(quintaObjeto.getString("opcao1"));
+                        principal2QuintaLabel.setText(quintaObjeto.getString("opcao2"));
+                        vegetarianoQuintaLabel.setText(quintaObjeto.getString("vegana"));
+                        fastQuintaLabel.setText(quintaObjeto.getString("fast_grill"));
+                        sucoQuintaLabel.setText(quintaObjeto.getString("suco"));
+                        sobremesaQuintaLabel.setText(quintaObjeto.getString("sobremesa"));
+                    }
+                    if (jsonObject.has("sexta")) {
+                        // Obtém o primeiro elemento do array
+                        JSONObject sextaObjeto = opcoes.getJSONObject("sexta");
+                        principal1SextaLabel.setText(sextaObjeto.getString("opcao1"));
+                        principal2SextaLabel.setText(sextaObjeto.getString("opcao2"));
+                        vegetarianoSextaLabel.setText(sextaObjeto.getString("vegana"));
+                        fastSextaLabel.setText(sextaObjeto.getString("fast_grill"));
+                        sucoSextaLabel.setText(sextaObjeto.getString("suco"));
+                        sobremesaSextaLabel.setText(sextaObjeto.getString("sobremesa"));
+                    }
 
+                }
             }
 
         } catch (IOException | InterruptedException e) {

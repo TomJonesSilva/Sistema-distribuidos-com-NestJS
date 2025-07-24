@@ -1,14 +1,40 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  OnModuleInit,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import {
   ClientProxy,
   ClientProxyFactory,
   Transport,
 } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
+import {
+  Observable,
+  firstValueFrom,
+  timeout,
+  catchError,
+  throwError,
+} from 'rxjs';
 
 @Injectable()
 export class RelatorioService implements OnModuleInit {
   private client: ClientProxy;
+
+  async callWithTimeout<T>(obs$: Observable<T>, time = 3000): Promise<T> {
+    return await firstValueFrom(
+      obs$.pipe(
+        timeout(time),
+        catchError((err) =>
+          throwError(
+            () =>
+              new ServiceUnavailableException(
+                'Microserviço de relatórios está fora do ar',
+              ),
+          ),
+        ),
+      ),
+    );
+  }
 
   onModuleInit() {
     this.client = ClientProxyFactory.create({
@@ -18,10 +44,10 @@ export class RelatorioService implements OnModuleInit {
   }
 
   relatorioTicketsConsumidos(data: any) {
-    return firstValueFrom(this.client.send('relatorio_consumidos', data));
+    return this.callWithTimeout(this.client.send('relatorio_consumidos', data));
   }
 
   relatorioTicketsVendidos(data: any) {
-    return firstValueFrom(this.client.send('relatorio_vendidos', data));
+    return this.callWithTimeout(this.client.send('relatorio_vendidos', data));
   }
 }

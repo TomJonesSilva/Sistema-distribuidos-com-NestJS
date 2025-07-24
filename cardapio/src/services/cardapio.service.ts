@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import {
   ClientProxy,
   ClientProxyFactory,
@@ -7,10 +7,29 @@ import {
 import { DatabaseService } from '../dataBase/database.service';
 import * as moment from 'moment';
 import { firstValueFrom } from 'rxjs';
+import { startOfWeek, parseISO } from 'date-fns';
 
 @Injectable()
 export class CardapioService implements OnModuleInit {
   private opcaoClient: ClientProxy;
+
+  normalizarTipo(tipo: string) {
+    const tipoSemAcento = tipo
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, ''); // remove acentos
+
+    if (tipoSemAcento.includes('almoco')) {
+      return 'almoço';
+    } else if (
+      tipoSemAcento.includes('janta') ||
+      tipoSemAcento.includes('jantar')
+    ) {
+      return 'janta'; // ou 'jantar', se for o termo correto no seu banco
+    }
+
+    return tipo;
+  }
 
   constructor(private readonly db: DatabaseService) {}
 
@@ -77,15 +96,30 @@ export class CardapioService implements OnModuleInit {
   }
 
   async buscarCardapio(body: any) {
-    const { data_inicio, tipo } = body;
+    let { data_inicio, tipo } = body;
+    tipo = this.normalizarTipo(tipo);
+
+    // Converte para Date se vier como string e ajusta para segunda-feira
+    const data = new Date(data_inicio);
+    const segundaDaSemana = startOfWeek(data, { weekStartsOn: 1 }); // 1 = segunda-feira
+    const dataInicioFormatada = segundaDaSemana.toISOString().split('T')[0]; // yyyy-mm-dd
+
+    console.log(
+      'Buscando cardápio com data_inicio:',
+      dataInicioFormatada,
+      'e tipo:',
+      tipo,
+    );
 
     const conn = await this.db.getConnection();
     const [cardapios]: any[] = await conn.query(
       'SELECT * FROM cardapio WHERE data_inicio = ? AND tipo = ?',
-      [data_inicio, tipo],
+      [dataInicioFormatada, tipo],
     );
 
-    if (cardapios.length === 0) return { erro: 'Cardápio não encontrado' };
+    if (cardapios.length === 0) {
+      throw new NotFoundException('Cardápio não encontrado');
+    }
 
     const cardapio = cardapios[0];
     const opcoesDetalhadas = {
@@ -105,13 +139,14 @@ export class CardapioService implements OnModuleInit {
   async editarCardapio(body: any) {
     const {
       data_inicio,
-      tipo,
       opcao_segunda,
       opcao_terca,
       opcao_quarta,
       opcao_quinta,
       opcao_sexta,
     } = body;
+    let { tipo } = body;
+    tipo = this.normalizarTipo(tipo);
 
     const conn = await this.db.getConnection();
     const dataAtual = moment();

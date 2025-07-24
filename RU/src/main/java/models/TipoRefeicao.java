@@ -1,5 +1,5 @@
 package models;
 
 public enum TipoRefeicao {
-    ALMOCO, JANTAR;
+    almoço, janta;
 }
