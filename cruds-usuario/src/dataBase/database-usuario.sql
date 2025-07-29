@@ -29,11 +29,22 @@ CREATE TABLE estudante (
 
 
 INSERT INTO usuario (nome, cpf, data_nascimento, email, senha, dia_cadastro)
-VALUES ('carlos', '12345678912', '1990-01-01', 'email3@example.com', 'senha123', CURRENT_TIMESTAMP);
+VALUES ('carlos', '12345678912', '1990-01-01', 'email3@example.com', 'senha123', CURRENT_TIMESTAMP());
 
 INSERT INTO funcionario (cpf, salario, data_admin)
 VALUES ('12345678912', 3000.00, '2024-02-24');
 
+INSERT INTO usuario (nome, cpf, data_nascimento, email, senha, dia_cadastro)
+VALUES ('Ana Silva', '98765432100', '1985-05-10', 'ana.silva@example.com', 'senhaFuncionario', CURRENT_TIMESTAMP());
+
+INSERT INTO funcionario (cpf, salario, data_admin)
+VALUES ('98765432100', 4500.00, '2023-01-15');
+
+INSERT INTO usuario (nome, cpf, data_nascimento, email, senha, dia_cadastro)
+VALUES ('Bruno Costa', '11223344550', '2000-11-20', 'bruno.costa@example.com', 'senhaEstudante', CURRENT_TIMESTAMP());
+
+INSERT INTO estudante (cpf, matricula)
+VALUES ('11223344550', '202200001');
 
 
 

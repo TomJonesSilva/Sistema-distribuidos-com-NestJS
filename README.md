@@ -60,11 +60,11 @@ npm run start:dev
 Após a execução, os seguintes serviços estarão disponíveis:
 
 - **API Gateway**: http://localhost:3000
-- **Cardápio**: Microserviço Redis (porta 3001 internamente)
-- **CRUD Tickets**: Microserviço Redis (porta 3002 internamente)
-- **CRUD Usuários**: Microserviço Redis (porta 3003 internamente)
-- **CRUD Opções**: Microserviço Redis (porta 3004 internamente)
-- **Relatórios**: Microserviço Redis (porta 3005 internamente)
+- **Cardápio**: Microserviço Redis
+- **CRUD Tickets**: Microserviço Redis
+- **CRUD Usuários**: Microserviço Redis
+- **CRUD Opções**: Microserviço Redis
+- **Relatórios**: Microserviço Redis
 - **Redis**: localhost:6379
 
 ### Endpoints da API Gateway
