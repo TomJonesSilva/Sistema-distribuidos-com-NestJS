@@ -303,7 +303,7 @@ public class Controlador {
 
     public String consumirRefeicao(Usuario user, TipoRefeicao tipo) throws NaoPossuiTicketDisponivelException {
         List<TicketRefeicao> tickets;
-        if(tipo.equals(TipoRefeicao.ALMOCO)){
+        if(tipo.equals(TipoRefeicao.almoço)){
             tickets=listarTicketAlmocoNaoConsumido(user);
         } else{
             tickets=listarTicketJantarNaoConsumido(user);
@@ -314,10 +314,10 @@ public class Controlador {
             tickets.get(0).setDataConsumo(LocalDate.now());
         }
         else{
-            if(tipo.equals(TipoRefeicao.ALMOCO))
-                throw new NaoPossuiTicketDisponivelException (TipoRefeicao.ALMOCO);
+            if(tipo.equals(TipoRefeicao.almoço))
+                throw new NaoPossuiTicketDisponivelException (TipoRefeicao.almoço);
             else
-                throw new NaoPossuiTicketDisponivelException (TipoRefeicao.JANTAR);
+                throw new NaoPossuiTicketDisponivelException (TipoRefeicao.janta);
         }
         return codConsumo;
 

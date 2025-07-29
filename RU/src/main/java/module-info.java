@@ -13,6 +13,7 @@ module app {
     requires java.net.http;
     requires org.json;
     requires com.google.gson;
+    requires javafx.base;
 
     opens app to javafx.fxml;
 
