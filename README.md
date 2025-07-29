@@ -1,26 +1,58 @@
 # Sistema Distribuído - Restaurante Universitário (RU)
 
-Um sistema distribuído completo para gerenciamento de um Restaurante Universitário, desenvolvido com arquitetura de microserviços usando NestJS, Redis, MySQL e Docker, com frontend JavaFX.
+Um sistema distribuído completo para gerenciamento do Restaurante Universitário da UFRPE, desenvolvido com arquitetura de microsserviços usando NestJS, Redis e MySQL, com frontend JavaFX.
 
-## 🚀 Execução Rápida do Backend
+## 🚀 Execução do Backend
 
 ### Pré-requisitos
-- Docker e Docker Compose instalados
 - Node.js 20+ (para execução local sem Docker)
 - Git
+- MySQL Server
+- Redis
 
-### Execução com Docker (Recomendado)
+Rode os scripts .sql necessários para configurar o banco de dados
+Locais:
+- cardapio/src/dataBase/database-cardapio.sql
+- cruds-opcoes/src/dataBase/database-opcoes.sql
+- cruds-ticket/src/dataBase/database-ticket.sql
+- cruds-usuario/src/dataBase/database-usuario.sql
+
+Execute o [Redis](https://redis.io/downloads/)
+
+
 
 ```bash
-# Clone o repositório
-git clone <url-do-repositorio>
-cd Sistema-distribuidos-com-NestJS
+# Para cada microsserviço, execute em um terminal:
 
-# Execute todos os serviços
-docker-compose up --build
+# API Gateway
+cd api-gateway
+npm install
+npm run start:dev
 
-# Para executar em background
-docker-compose up -d --build
+# Cardápio
+cd cardapio
+npm install
+npm run start:dev
+
+# Usuários
+cd cruds-usuario
+npm install
+npm run start:dev
+
+# Tickets
+cd cruds-ticket
+npm install
+npm run start:dev
+
+# Opções
+cd cruds-opcoes
+npm install
+npm run start:dev
+
+# Relatórios
+cd relatorio
+npm install
+npm run start:dev
 ```
 
 ### Testando os Serviços
@@ -58,7 +90,7 @@ Content-Type: application/json
   "nome": "João Silva",
   "email": "joao@email.com",
   "senha": "senha123",
-  "tipo": "estudante"
+  "tipo": "funcionario"
 }
 
 # Buscar usuário por CPF
@@ -136,7 +168,6 @@ GET http://localhost:3000/relatorio
 #### Backend
 - **NestJS**: Framework Node.js para construção de aplicações escaláveis
 - **Redis**: Sistema de cache e comunicação entre microserviços
-- **Docker**: Containerização dos serviços
 - **TypeScript**: Linguagem de programação
 - **Class Validator**: Validação de dados
 - **RxJS**: Programação reativa
@@ -160,14 +191,8 @@ GET http://localhost:3000/relatorio
 # Navegue para o diretório do frontend
 cd RU
 
-# Compile o projeto
-mvn clean compile
-
-# Execute a aplicação
-mvn javafx:run
-
-# Alternativamente, compile e execute
-mvn clean compile exec:java
+# Compile e rode o projeto
+mvn clean compile exec:java -Dexec.mainClass=app.Aplicativo
 ```
 
 ### Executar com Java diretamente
@@ -209,53 +234,6 @@ java --module-path /path/to/javafx/lib --add-modules javafx.controls,javafx.fxml
 
 ### Execução Local (Sem Docker)
 
-#### Backend
-
-```bash
-# Para cada microserviço, execute:
-
-# API Gateway
-cd api-gateway
-npm install
-npm run start:dev
-
-# Cardápio
-cd cardapio
-npm install
-npm run start:dev
-
-# Usuários
-cd cruds-usuario
-npm install
-npm run start:dev
-
-# Tickets
-cd cruds-ticket
-npm install
-npm run start:dev
-
-# Opções
-cd cruds-opcoes
-npm install
-npm run start:dev
-
-# Relatórios
-cd relatorio
-npm install
-npm run start:dev
-```
-
-#### Redis (necessário para microserviços)
-
-```bash
-# Com Docker
-docker run -d -p 6379:6379 redis:6-alpine
-
-# Ou instale localmente
-# Windows: Baixe do site oficial
-# Linux: sudo apt-get install redis-server
-# macOS: brew install redis
-```
 
 ### Scripts Disponíveis
 
@@ -282,29 +260,5 @@ Sistema-distribuidos-com-NestJS/
 ├── cruds-usuario/        # Microserviço de usuários
 ├── relatorio/            # Microserviço de relatórios
 ├── RU/                   # Frontend JavaFX
-├── docker-compose.yml    # Configuração Docker
-├── Dockerfile           # Build das imagens
 └── README.md           # Este arquivo
 ```
-
-## 🔧 Configuração
-
-### Variáveis de Ambiente
-
-Crie arquivos `.env` em cada microserviço se necessário:
-
-```env
-# Exemplo para cada serviço
-REDIS_HOST=localhost
-REDIS_PORT=6379
-PORT=3000
-NODE_ENV=development
-```
-
-### Configuração de Banco de Dados
-
-O sistema atualmente usa Redis para comunicação entre microserviços. Para adicionar MySQL:
-
-1. Adicione o serviço MySQL ao `docker-compose.yml`
-2. Configure as conexões nos microserviços
-3. Execute as migrações necessárias
