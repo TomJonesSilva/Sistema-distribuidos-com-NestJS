@@ -194,6 +194,9 @@ cd RU
 # Compile e rode o projeto
 mvn clean compile exec:java -Dexec.mainClass=app.Aplicativo
 ```
+Para testar a aplicação há contas pré-cadastradas diretamente no MySQL com os seguintes dados:
+<br>Funcionário -> CPF: 98765432100; Senha: senhaFuncionario
+<br>Estudante -> CPF: 11223344550; Senha: senhaEstudante
 
 ### Executar com Java diretamente
 
